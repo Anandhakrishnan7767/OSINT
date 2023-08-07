@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT - Number</title>
+    <style>
+        table, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+        <label for="fname">Phone number</label><br>
+        <input type="text" id="number" name="number" value=""><br>
+        <input onclick="find()" type="submit">
+        <input onclick="window.location='/static/run.html'" type="submit" value="Refresh">
+
+    <table id="myTable">
+    </table>
+    <script>
+
+        function insertTa(jsn) {
+            var table = document.getElementById("myTable");
+            for (const key in jsn) {
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = key;
+                cell2.innerHTML = JSON.stringify(jsn[key]);
+            }
+
+        }
+        
+        function find(){
+            number=document.getElementById("number").value
+            fetch('http://127.0.0.1:5000/?number='+number)           //api for the get request
+            .then(response => response.json())
+            .then(data => insertTa(data["data"][0]));
+        }
+
+
+    </script>
+</body>
+</html>
